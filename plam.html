@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiri-Oruwa Sustainable Tourism Project | 10-Year Master Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/2.1.0/chartjs-plugin-annotation.min.js"></script>
+    <style>
+        /* Custom Scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a8a29e; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #78716c; 
+        }
+
+        /* Chart Container Utilities */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%; /* Let grid handle width, but ensure responsiveness */
+            height: 350px;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+
+        /* Tab Transition */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Interactive Elements */
+        .slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #d6d3d1;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+            border-radius: 3px;
+        }
+        .slider-thumb:hover {
+            opacity: 1;
+        }
+        .slider-thumb::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #57534e;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone/Warm Gray) with Earthy Green/Brown Accents for Sustainability vibe -->
+    <!-- Application Structure Plan: Dashboard Layout. 
+         Sidebar/Top Nav for major sections: Vision, Operations, Financials, Roadmap, Impact.
+         Content Area: Dynamic grids. 
+         Interaction: Financial sliders to adjust occupancy assumptions and see live break-even impact.
+         Justification: Facilitates "Bankable Project" review by separating emotional vision from hard data. 
+    -->
+    <!-- Visualization & Content Choices:
+         1. Vision: Text & Cards -> Convey Concept.
+         2. Phasing: Timeline/Gantt style (HTML/CSS) -> Show growth.
+         3. Financials: Line Chart (Revenue/Cost) & Donut (Rev Stream) -> Show profitability.
+         4. Impact: Grid of Metric Cards -> Show Sustainability.
+         5. CONFIRMATION: NO SVG, NO Mermaid. Chart.js used.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <span class="text-2xl font-bold tracking-tight text-stone-700">Kiri-Oruwa <span class="text-stone-500 font-light">Project</span></span>
+                    </div>
+                    <div class="hidden sm:ml-8 sm:flex sm:space-x-8" id="desktop-nav">
+                        <!-- Nav items injected by JS -->
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <button class="bg-stone-800 text-white px-4 py-2 rounded text-sm font-medium hover:bg-stone-700 transition-colors" onclick="window.print()">Export Report</button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="sm:hidden hidden bg-white border-t border-stone-200" id="mobile-menu">
+            <div class="pt-2 pb-4 space-y-1 px-4" id="mobile-nav-items"></div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- SECTION 1: OVERVIEW & VISION -->
+        <div id="section-overview" class="tab-content active">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-extrabold text-stone-900 mb-4">The Village Sanctuary at Kiri-Oruwa</h1>
+                <p class="text-xl text-stone-600 max-w-3xl mx-auto">A 10-Year Master Plan for Regenerative Community Tourism</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <!-- KPI Cards -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-100 border-l-4 border-stone-500">
+                    <h3 class="text-sm font-medium text-stone-500 uppercase tracking-wider">Project Horizon</h3>
+                    <div class="mt-2 flex items-baseline">
+                        <span class="text-3xl font-semibold text-stone-900">10 Years</span>
+                    </div>
+                    <p class="mt-1 text-sm text-stone-500">Phased Development</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-100 border-l-4 border-stone-500">
+                    <h3 class="text-sm font-medium text-stone-500 uppercase tracking-wider">Target Capacity</h3>
+                    <div class="mt-2 flex items-baseline">
+                        <span class="text-3xl font-semibold text-stone-900">35 Rooms</span>
+                    </div>
+                    <p class="mt-1 text-sm text-stone-500">+ 3 Dining Venues</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-100 border-l-4 border-stone-500">
+                    <h3 class="text-sm font-medium text-stone-500 uppercase tracking-wider">Target Market</h3>
+                    <div class="mt-2 flex items-baseline">
+                        <span class="text-3xl font-semibold text-stone-900">European</span>
+                    </div>
+                    <p class="mt-1 text-sm text-stone-500">Eco-Cultural Travelers</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-bold text-stone-800">Strategic Vision</h2>
+                    <p class="text-stone-600 leading-relaxed">
+                        To transform Kiri-Oruwa into a premier destination for <strong>Slow Tourism</strong>, leveraging the authentic rural lifestyle of Kandegethera. The project avoids mass tourism in favor of a "high-value, low-impact" model that integrates European travelers directly into the village lifecycle—paddy harvesting, cinnamon peeling, and traditional cooking.
+                    </p>
+                    <div class="bg-stone-100 p-6 rounded-lg">
+                        <h4 class="font-bold text-stone-800 mb-2">Unique Value Proposition</h4>
+                        <ul class="list-disc list-inside text-stone-700 space-y-2">
+                            <li><strong>Authenticity:</strong> Not a hotel, but a curated village residence.</li>
+                            <li><strong>Sustainability:</strong> 100% solar daytime power, zero-plastic zones.</li>
+                            <li><strong>Community:</strong> 40% of net profits reinvested in local infrastructure.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-bold text-stone-800">Community & Location Analysis</h2>
+                    <div class="bg-white border border-stone-200 rounded-lg p-6">
+                        <h4 class="font-bold text-stone-800 mb-4 border-b pb-2">SWOT Analysis Summary</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <strong class="text-emerald-700">Strengths</strong>
+                                <ul class="text-stone-600 mt-1 space-y-1">
+                                    <li>• Undisturbed natural landscapes</li>
+                                    <li>• Rich "Kandegethera" heritage</li>
+                                    <li>• Available local labor force</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong class="text-amber-700">Weaknesses</strong>
+                                <ul class="text-stone-600 mt-1 space-y-1">
+                                    <li>• Limited last-mile road access</li>
+                                    <li>• Language barriers (English)</li>
+                                    <li>• Seasonal water scarcity</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong class="text-blue-700">Opportunities</strong>
+                                <ul class="text-stone-600 mt-1 space-y-1">
+                                    <li>• Rising EU demand for "Regenerative Travel"</li>
+                                    <li>• Agro-tourism integration</li>
+                                    <li>• Long-stay digital nomads</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong class="text-red-700">Threats</strong>
+                                <ul class="text-stone-600 mt-1 space-y-1">
+                                    <li>• Climate volatility (monsoons)</li>
+                                    <li>• Cultural dilution if scaling too fast</li>
+                                    <li>• Economic instability</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: OPERATIONS & TECHNICAL -->
+        <div id="section-operations" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-stone-900 mb-2">Technical & Operational Plan</h2>
+                <p class="text-stone-600">Phased construction and operational capacity scaling over 10 years.</p>
+            </div>
+
+            <!-- Operations Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- Left Column: Accom & Dining -->
+                <div class="lg:col-span-7 space-y-8">
+                    
+                    <!-- Accommodation Section -->
+                    <div class="bg-white rounded-lg shadow-sm border border-stone-200 p-6">
+                        <h3 class="text-xl font-bold text-stone-800 mb-4 flex items-center">
+                            <span class="bg-stone-200 text-stone-800 text-xs px-2 py-1 rounded mr-3">35 Rooms Total</span>
+                            Accommodation Concepts
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex flex-col sm:flex-row gap-4 border-b border-stone-100 pb-4">
+                                <div class="w-full sm:w-1/3 bg-stone-100 rounded flex items-center justify-center h-24 text-stone-400 font-bold text-xl">
+                                    Mud Chalet
+                                </div>
+                                <div class="w-full sm:w-2/3">
+                                    <h4 class="font-bold text-stone-800">The Earth Lodges (15 Units)</h4>
+                                    <p class="text-sm text-stone-600 mt-1">Wattle and daub construction with modern interiors. High thermal mass for passive cooling. Targeted at couples/solo travelers.</p>
+                                    <p class="text-xs text-stone-500 mt-2"><strong>Phase 1:</strong> 10 Units | <strong>Phase 2:</strong> 5 Units</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-4 border-b border-stone-100 pb-4">
+                                <div class="w-full sm:w-1/3 bg-stone-100 rounded flex items-center justify-center h-24 text-stone-400 font-bold text-xl">
+                                    Tree House
+                                </div>
+                                <div class="w-full sm:w-2/3">
+                                    <h4 class="font-bold text-stone-800">Canopy Suites (10 Units)</h4>
+                                    <p class="text-sm text-stone-600 mt-1">Elevated wooden structures overlooking paddy fields. Premium pricing. focus on privacy and birdwatching.</p>
+                                    <p class="text-xs text-stone-500 mt-2"><strong>Phase 2:</strong> 5 Units | <strong>Phase 3:</strong> 5 Units</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <div class="w-full sm:w-1/3 bg-stone-100 rounded flex items-center justify-center h-24 text-stone-400 font-bold text-xl">
+                                    Villa
+                                </div>
+                                <div class="w-full sm:w-2/3">
+                                    <h4 class="font-bold text-stone-800">Heritage Villas (10 Units)</h4>
+                                    <p class="text-sm text-stone-600 mt-1">Restored or replica colonial/local manor style. Family oriented with 2 bedrooms each.</p>
+                                    <p class="text-xs text-stone-500 mt-2"><strong>Phase 3:</strong> 10 Units</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- F&B Section -->
+                    <div class="bg-white rounded-lg shadow-sm border border-stone-200 p-6">
+                        <h3 class="text-xl font-bold text-stone-800 mb-4">Dining & Gastronomy (F&B)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-stone-50 p-4 rounded border border-stone-100">
+                                <h5 class="font-bold text-stone-800">1. The Hearth</h5>
+                                <p class="text-xs text-stone-500 mb-2">Main Restaurant</p>
+                                <p class="text-sm text-stone-600">Buffet & A la carte. Traditional wood-fire cooking.</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded border border-stone-100">
+                                <h5 class="font-bold text-stone-800">2. Paddy Pavilion</h5>
+                                <p class="text-xs text-stone-500 mb-2">Sunset Lounge</p>
+                                <p class="text-sm text-stone-600">Tea, cocktails, and light bites overlooking fields.</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded border border-stone-100">
+                                <h5 class="font-bold text-stone-800">3. Spice Garden</h5>
+                                <p class="text-xs text-stone-500 mb-2">Private Dining</p>
+                                <p class="text-sm text-stone-600">Chef's table experience within the organic garden.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Staffing & Capacity Chart -->
+                <div class="lg:col-span-5 space-y-8">
+                    <!-- Staffing Model -->
+                    <div class="bg-stone-800 text-stone-100 rounded-lg p-6">
+                        <h3 class="text-lg font-bold mb-4">Community Staffing Model</h3>
+                        <p class="text-sm text-stone-400 mb-4">Commitment: 80% Local Hiring within 10km radius.</p>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center border-b border-stone-700 pb-2">
+                                <span>Core Operations</span>
+                                <span class="font-bold">12 Staff</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-stone-700 pb-2">
+                                <span>Housekeeping</span>
+                                <span class="font-bold">8 Staff</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-stone-700 pb-2">
+                                <span>F&B / Kitchen</span>
+                                <span class="font-bold">15 Staff</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-stone-700 pb-2">
+                                <span>Guides/Gardeners</span>
+                                <span class="font-bold">10 Staff</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-2 text-emerald-400">
+                                <span class="uppercase tracking-widest text-xs">Total Direct Jobs</span>
+                                <span class="text-2xl font-bold">45</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Room Ramp Up Chart -->
+                    <div class="bg-white rounded-lg shadow-sm border border-stone-200 p-4">
+                        <h4 class="font-bold text-stone-800 mb-2 text-sm text-center">Room Inventory Scale-Up</h4>
+                        <div class="chart-container" style="height: 250px;">
+                            <canvas id="roomChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: FINANCIALS -->
+        <div id="section-financials" class="tab-content">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-stone-900 mb-2">Financial Projections</h2>
+                    <p class="text-stone-600">Estimated performance based on $50/guest/day spending assumption.</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-sm border border-stone-200 mt-4 md:mt-0 w-full md:w-auto">
+                    <label class="block text-xs font-bold text-stone-500 uppercase mb-2">Interactive: Avg. Occupancy Rate (<span id="occValue">60</span>%)</label>
+                    <input type="range" min="30" max="90" value="60" class="slider-thumb" id="occupancySlider">
+                    <p class="text-xs text-stone-400 mt-1">Drag to adjust revenue projections</p>
+                </div>
+            </div>
+
+            <!-- Financial Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white p-4 rounded border border-stone-200">
+                    <p class="text-xs text-stone-500 uppercase">Year 10 Annual Revenue</p>
+                    <h3 class="text-2xl font-bold text-emerald-700" id="stat-revenue">$912,500</h3>
+                </div>
+                <div class="bg-white p-4 rounded border border-stone-200">
+                    <p class="text-xs text-stone-500 uppercase">Est. Total CapEx</p>
+                    <h3 class="text-2xl font-bold text-stone-700">$1.2M</h3>
+                </div>
+                <div class="bg-white p-4 rounded border border-stone-200">
+                    <p class="text-xs text-stone-500 uppercase">Break-Even Point</p>
+                    <h3 class="text-2xl font-bold text-stone-700">Year 4</h3>
+                </div>
+                <div class="bg-white p-4 rounded border border-stone-200">
+                    <p class="text-xs text-stone-500 uppercase">Daily Guest Spend</p>
+                    <h3 class="text-2xl font-bold text-stone-700">$50.00</h3>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Main Financial Chart -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                    <h4 class="font-bold text-stone-800 mb-4">10-Year Revenue vs. OpEx Forecast</h4>
+                    <div class="chart-container">
+                        <canvas id="financeChart"></canvas>
+                    </div>
+                    <p class="text-xs text-stone-400 mt-4 text-center">*Values update based on occupancy slider.</p>
+                </div>
+
+                <!-- Right Side Analysis -->
+                <div class="space-y-6">
+                    <!-- Revenue Mix Donut -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h4 class="font-bold text-stone-800 mb-4">Projected Revenue Mix</h4>
+                        <div class="flex items-center">
+                            <div class="chart-container" style="height: 200px; width: 200px; margin: 0;">
+                                <canvas id="mixChart"></canvas>
+                            </div>
+                            <div class="ml-6 space-y-2 text-sm text-stone-600">
+                                <p><span class="inline-block w-3 h-3 rounded-full bg-stone-700 mr-2"></span>Accommodation (45%)</p>
+                                <p><span class="inline-block w-3 h-3 rounded-full bg-stone-500 mr-2"></span>Food & Beverage (35%)</p>
+                                <p><span class="inline-block w-3 h-3 rounded-full bg-stone-300 mr-2"></span>Tours & Activities (20%)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Assumptions Box -->
+                    <div class="bg-stone-100 p-6 rounded-lg border border-stone-200">
+                        <h4 class="font-bold text-stone-800 mb-2 text-sm">Key Financial Assumptions</h4>
+                        <ul class="text-sm text-stone-600 space-y-2 list-disc list-inside">
+                            <li><strong>Spending:</strong> $50 per guest/day covers Room + F&B (Budget/Community Model) or Ancillary spend if Room is separate. *Model assumes $50 is Total RevPAR equivalent for conservative planning.*</li>
+                            <li><strong>Growth:</strong> Occupancy starts at 30% (Y1), stabilizes at 65% (Y5+).</li>
+                            <li><strong>OpEx:</strong> ~60% of Revenue (High labor/maintenance for eco-projects).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: ROADMAP -->
+        <div id="section-roadmap" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-stone-900 mb-2">Implementation Roadmap</h2>
+                <p class="text-stone-600">Phased rollout strategy to manage risk and capital.</p>
+            </div>
+
+            <div class="relative border-l-2 border-stone-200 ml-4 space-y-12">
+                
+                <!-- Phase 1 -->
+                <div class="relative pl-8">
+                    <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-stone-800 border-2 border-white"></span>
+                    <h3 class="text-xl font-bold text-stone-900">Phase 1: Foundation (Years 1-3)</h3>
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded border border-stone-200 shadow-sm">
+                            <h4 class="font-bold text-stone-800 text-sm mb-2">Construction</h4>
+                            <ul class="text-sm text-stone-600 space-y-1">
+                                <li>• Land acquisition & zoning</li>
+                                <li>• Infrastructure (Solar, Water, Waste)</li>
+                                <li>• 10 Earth Lodges + Main Hearth Restaurant</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-4 rounded border border-stone-200 shadow-sm">
+                            <h4 class="font-bold text-stone-800 text-sm mb-2">Operations</h4>
+                            <ul class="text-sm text-stone-600 space-y-1">
+                                <li>• Staff recruitment & training (Local)</li>
+                                <li>• Pilot marketing to EU Eco-agencies</li>
+                                <li>• Establish Community Co-op</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="relative pl-8">
+                    <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-stone-400 border-2 border-white"></span>
+                    <h3 class="text-xl font-bold text-stone-900">Phase 2: Growth (Years 4-7)</h3>
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded border border-stone-200 shadow-sm">
+                            <h4 class="font-bold text-stone-800 text-sm mb-2">Expansion</h4>
+                            <ul class="text-sm text-stone-600 space-y-1">
+                                <li>• Add 5 Lodges + 5 Canopy Suites</li>
+                                <li>• Open 'Paddy Pavilion' Bar</li>
+                                <li>• Launch Organic Farm tours</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-4 rounded border border-stone-200 shadow-sm">
+                            <h4 class="font-bold text-stone-800 text-sm mb-2">Optimization</h4>
+                            <ul class="text-sm text-stone-600 space-y-1">
+                                <li>• Achieve Break-even</li>
+                                <li>• Certification (Travelife/Green Globe)</li>
+                                <li>• Direct Booking Platform launch</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="relative pl-8">
+                    <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-stone-300 border-2 border-white"></span>
+                    <h3 class="text-xl font-bold text-stone-900">Phase 3: Maturity (Years 8-10)</h3>
+                    <div class="mt-4 bg-white p-4 rounded border border-stone-200 shadow-sm">
+                        <h4 class="font-bold text-stone-800 text-sm mb-2">Full Scale & Resilience</h4>
+                        <p class="text-sm text-stone-600 mb-2">Completing the vision with high-yield inventory.</p>
+                        <ul class="text-sm text-stone-600 list-disc list-inside grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <li>Construct 10 Heritage Villas</li>
+                            <li>Open 'Spice Garden' Fine Dining</li>
+                            <li>Establish Community Trust Fund</li>
+                            <li>Diversify into Wellness/Yoga Retreats</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="mb-2 text-stone-200 font-bold">Kiri-Oruwa Sustainable Tourism Project</p>
+            <p class="text-sm">Generated for Strategic Review | 10-Year Horizon</p>
+            <div class="mt-4 text-xs border-t border-stone-800 pt-4">
+                Disclaimer: Financial projections are estimates based on provided assumptions ($50/pax, 35 rooms). Market conditions may vary.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Navigation Logic ---
+        const sections = [
+            { id: 'overview', label: 'Vision & Context' },
+            { id: 'operations', label: 'Technical Plan' },
+            { id: 'financials', label: 'Financials' },
+            { id: 'roadmap', label: 'Roadmap' }
+        ];
+
+        function renderNav() {
+            const desktopNav = document.getElementById('desktop-nav');
+            const mobileNav = document.getElementById('mobile-nav-items');
+            
+            sections.forEach(sec => {
+                // Desktop
+                const btn = document.createElement('button');
+                btn.className = `nav-btn px-3 py-2 rounded-md text-sm font-medium transition-colors ${sec.id === 'overview' ? 'bg-stone-100 text-stone-900' : 'text-stone-500 hover:text-stone-900 hover:bg-stone-50'}`;
+                btn.innerText = sec.label;
+                btn.dataset.target = sec.id;
+                btn.onclick = () => switchTab(sec.id);
+                desktopNav.appendChild(btn);
+
+                // Mobile
+                const mBtn = document.createElement('a');
+                mBtn.className = "block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:text-stone-900 hover:bg-stone-50 cursor-pointer";
+                mBtn.innerText = sec.label;
+                mBtn.onclick = () => {
+                    switchTab(sec.id);
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                };
+                mobileNav.appendChild(mBtn);
+            });
+        }
+
+        function switchTab(sectionId) {
+            // Update Content
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`section-${sectionId}`).classList.add('active');
+
+            // Update Nav Styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.target === sectionId) {
+                    btn.classList.remove('text-stone-500', 'hover:text-stone-900', 'hover:bg-stone-50');
+                    btn.classList.add('bg-stone-100', 'text-stone-900');
+                } else {
+                    btn.classList.add('text-stone-500', 'hover:text-stone-900', 'hover:bg-stone-50');
+                    btn.classList.remove('bg-stone-100', 'text-stone-900');
+                }
+            });
+        }
+
+        // --- Data & Charts ---
+
+        // Constants
+        const TOTAL_ROOMS = 35;
+        const DAILY_SPEND = 50; // USD
+        const MAX_GUESTS_PER_ROOM = 2; // Avg
+        // 35 rooms * 2 pax = 70 max pax. 50 avg pax provided in prompt is ~71% occupancy of max capacity, or 1.4 pax/room.
+
+        // Phasing Data
+        const years = Array.from({length: 10}, (_, i) => `Year ${i + 1}`);
+        const roomGrowth = [10, 10, 10, 15, 15, 20, 20, 25, 30, 35]; // Phased inventory
+        
+        // Initial Financial Calculation
+        function calculateFinancials(occupancyRate) {
+            const revenue = [];
+            const opex = [];
+            const profit = [];
+
+            years.forEach((y, i) => {
+                const roomsAvailable = roomGrowth[i];
+                // Avg guests = Rooms * Occupancy * Avg Pax per room (1.5 for blend of couples/family)
+                // BUT constraint says "Average guests staying per day: 50" for the total project.
+                // Let's scale the 50 guests relative to the room count (35).
+                // 50 guests / 35 rooms = ~1.42 guests per room at full capacity.
+                
+                // Dynamic Guest Count based on slider occupancy vs max capacity of that year
+                // Max capacity for year i = roomsAvailable * 1.42
+                const maxGuestsYear = roomsAvailable * 1.42;
+                const actualGuests = maxGuestsYear * (occupancyRate / 100);
+                
+                // Revenue = Guests * 365 * $50
+                const annualRev = actualGuests * 365 * DAILY_SPEND;
+                
+                // OpEx assumption: High fixed costs initially, stabilizing at 60%
+                let opexRatio = 0.85 - (i * 0.03); // Efficiency improves
+                if (opexRatio < 0.55) opexRatio = 0.55;
+                
+                const annualOpex = annualRev * opexRatio;
+                
+                revenue.push(annualRev);
+                opex.push(annualOpex);
+                profit.push(annualRev - annualOpex);
+            });
+            return { revenue, opex, profit };
+        }
+
+        let financeChartInstance = null;
+
+        function renderCharts() {
+            // 1. Room Growth Chart
+            const ctxRoom = document.getElementById('roomChart').getContext('2d');
+            new Chart(ctxRoom, {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Available Rooms',
+                        data: roomGrowth,
+                        backgroundColor: '#78716c', // stone-500
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Units' } } }
+                }
+            });
+
+            // 2. Financial Chart
+            const ctxFin = document.getElementById('financeChart').getContext('2d');
+            financeChartInstance = new Chart(ctxFin, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [
+                        {
+                            label: 'Projected Revenue ($)',
+                            data: [], // Filled dynamically
+                            borderColor: '#059669', // emerald-600
+                            backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Operating Costs ($)',
+                            data: [], // Filled dynamically
+                            borderColor: '#dc2626', // red-600
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumSignificantDigits: 3 }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 3. Mix Chart (Static assumption)
+            const ctxMix = document.getElementById('mixChart').getContext('2d');
+            new Chart(ctxMix, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Accommodation', 'F&B', 'Activities'],
+                    datasets: [{
+                        data: [45, 35, 20],
+                        backgroundColor: ['#44403c', '#78716c', '#d6d3d1'], // Stone shades
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function updateFinancials(occupancy) {
+            const data = calculateFinancials(occupancy);
+            
+            // Update Chart
+            financeChartInstance.data.datasets[0].data = data.revenue;
+            financeChartInstance.data.datasets[1].data = data.opex;
+            financeChartInstance.update();
+
+            // Update Text Stats (Year 10)
+            const y10Rev = data.revenue[9];
+            document.getElementById('stat-revenue').innerText = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumSignificantDigits: 3 }).format(y10Rev);
+            document.getElementById('occValue').innerText = occupancy;
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNav();
+            renderCharts();
+            
+            // Slider Interaction
+            const slider = document.getElementById('occupancySlider');
+            slider.addEventListener('input', (e) => {
+                updateFinancials(e.target.value);
+            });
+
+            // Initial calc
+            updateFinancials(60);
+        });
+
+    </script>
+</body>
+</html>
